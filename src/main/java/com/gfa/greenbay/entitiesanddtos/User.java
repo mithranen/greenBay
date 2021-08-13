@@ -1,6 +1,5 @@
 package com.gfa.greenbay.entitiesanddtos;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -22,6 +21,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//@JsonIgnoreProperties({"items", "hibernateLazyInitializer", "handler"})
 public class User {
 
   @Id
@@ -34,5 +34,9 @@ public class User {
 
   @Exclude
   @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-  private List<Item> items = new ArrayList<>();
+  private List<Item> items;
+
+  //  public User() {
+  //    this.items = new ArrayList<>();
+  //  }
 }

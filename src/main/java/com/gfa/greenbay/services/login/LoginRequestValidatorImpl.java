@@ -1,11 +1,11 @@
 package com.gfa.greenbay.services.login;
 
-import com.gfa.greenbay.entitiesanddtos.LoginRequestDTO;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.LoginRequestDTO;
 import com.gfa.greenbay.exceptions.login.IncorrectUserNameOrPassword;
 import com.gfa.greenbay.exceptions.login.LoginRequestNullException;
 import com.gfa.greenbay.exceptions.login.PasswordMissingException;
 import com.gfa.greenbay.exceptions.login.UsernameMissingException;
-import com.gfa.greenbay.exceptions.login.UsernameNotFoundException;
+import com.gfa.greenbay.exceptions.login.UserNotFoundException;
 import com.gfa.greenbay.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,7 +55,7 @@ public class LoginRequestValidatorImpl implements LoginRequestValidator {
 
   private void validateUsernameExists(LoginRequestDTO request) {
     if (userRepository.findUserByUsername(request.getUsername()).isEmpty()) {
-      throw new UsernameNotFoundException();
+      throw new UserNotFoundException();
     }
   }
 

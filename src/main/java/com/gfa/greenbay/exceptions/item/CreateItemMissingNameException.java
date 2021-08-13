@@ -1,5 +1,5 @@
 package com.gfa.greenbay.exceptions.item;
 
-public class CreateItemMissingNameException extends CreateItemException {
+public class CreateItemMissingNameException extends ItemException {
 
 }

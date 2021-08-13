@@ -1,7 +1,7 @@
 package com.gfa.greenbay.controllers;
 
-import com.gfa.greenbay.entitiesanddtos.LoginRequestDTO;
-import com.gfa.greenbay.entitiesanddtos.LoginResponseDTO;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.LoginRequestDTO;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.LoginResponseDTO;
 import com.gfa.greenbay.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

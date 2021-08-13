@@ -1,7 +1,7 @@
 package com.gfa.greenbay.services.login;
 
-import com.gfa.greenbay.entitiesanddtos.LoginRequestDTO;
-import com.gfa.greenbay.entitiesanddtos.LoginResponseDTO;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.LoginRequestDTO;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.LoginResponseDTO;
 
 public interface LoginService {
 

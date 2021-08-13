@@ -1,5 +1,5 @@
 package com.gfa.greenbay.exceptions.item;
 
-public class CreateItemMissingPhotoUrlException extends CreateItemException{
+public class CreateItemMissingPhotoUrlException extends ItemException {
 
 }

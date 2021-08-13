@@ -1,6 +1,7 @@
 package com.gfa.greenbay.services.item;
 
-import com.gfa.greenbay.entitiesanddtos.CreateItemRequestDTO;
+import com.gfa.greenbay.entitiesanddtos.Item;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.CreateItemRequestDTO;
 import com.gfa.greenbay.exceptions.item.CreateItemInvalidBidTimeException;
 import com.gfa.greenbay.exceptions.item.CreateItemInvalidPhotoUrlException;
 import com.gfa.greenbay.exceptions.item.CreateItemInvalidStartingPriceException;
@@ -11,6 +12,7 @@ import com.gfa.greenbay.exceptions.item.CreateItemMissingDescriptionException;
 import com.gfa.greenbay.exceptions.item.CreateItemMissingNameException;
 import com.gfa.greenbay.exceptions.item.CreateItemMissingPhotoUrlException;
 import com.gfa.greenbay.exceptions.item.CreateItemRequestNullException;
+import com.gfa.greenbay.exceptions.item.InvalidPageNumberException;
 import com.gfa.greenbay.utils.tools.Toolbox;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -34,7 +36,7 @@ public class ItemRequestValidatorImpl implements ItemRequestValidator {
     validateRequestHasBidStartingPrice(request);
     validateRequestHasCorrectPhotoUrl(request);
     validateRequestPhotoUrlIsImage(request);
-    validateStartingPriceIsPositiveNumber(request);
+    validateStartingPriceIsPositiveWholeNumber(request);
     validateBidEndingDateTimeFormat(request);
     validateBidEndingDateTime(request);
   }
@@ -96,8 +98,10 @@ public class ItemRequestValidatorImpl implements ItemRequestValidator {
     }
   }
 
-  private void validateStartingPriceIsPositiveNumber(CreateItemRequestDTO request) {
-    if (request.getBidStartingPrice() <= 0) {
+  //TODO &&... whole num validate not working --> here is already change double to integer
+  private void validateStartingPriceIsPositiveWholeNumber(CreateItemRequestDTO request) {
+    if (!(request.getBidStartingPrice() >= 0)
+        || request.getBidStartingPrice().toString().contains("\\.")) {
       throw new CreateItemInvalidStartingPriceException();
     }
   }
@@ -122,5 +126,29 @@ public class ItemRequestValidatorImpl implements ItemRequestValidator {
       throw new CreateItemInvalidBidTimeException();
     }
   } //endregion private validator methods for CREATE item
+
+  //TODO validating whole number --> should nums receiving in Str or double to validate?
+  @Override
+  public void validateGetItemByPageRequest(Integer pageNum) {
+    if (pageNum < 0 || pageNum.toString().contains(".")) {
+      throw new InvalidPageNumberException();
+    }
+  }
+
+  @Override
+  public void validateItemByIdNotBelongsToUser(Item item, String username) {
+    if (item.getUser().getUsername().equals(username)) {
+      throw new IllegalArgumentException();
+    }
+  }
+
+  //  @Override
+  //  public void validateItemByIdNotBelongsToUser(Long itemId, User currentUser) {
+  //    List<Long> listOfIdS = currentUser.getItems().stream().map(Item::getId).collect(
+  //        Collectors.toList());
+  //    if (listOfIdS.contains(itemId)) {
+  //      throw new IllegalArgumentException();
+  //    }
+  //  }
 }
 

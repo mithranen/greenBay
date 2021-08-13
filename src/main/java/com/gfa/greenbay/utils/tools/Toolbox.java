@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.config.PageableHandlerMethodArgumentResolverCustomizer;
 
 @Configuration
 public class Toolbox {
@@ -57,4 +58,10 @@ public class Toolbox {
       builder.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(dateTimeFormat)));
     };
   }*/
+
+
+  @Bean
+  PageableHandlerMethodArgumentResolverCustomizer pageableResolverCustomizer() {
+    return pageableResolver -> pageableResolver.setOneIndexedParameters(true);
+  }
 }

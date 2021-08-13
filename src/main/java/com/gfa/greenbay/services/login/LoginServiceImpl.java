@@ -1,7 +1,7 @@
 package com.gfa.greenbay.services.login;
 
-import com.gfa.greenbay.entitiesanddtos.LoginRequestDTO;
-import com.gfa.greenbay.entitiesanddtos.LoginResponseDTO;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.LoginRequestDTO;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.LoginResponseDTO;
 import com.gfa.greenbay.entitiesanddtos.User;
 import com.gfa.greenbay.repositories.UserRepository;
 import com.gfa.greenbay.utils.security.JwtUtilServiceImpl;

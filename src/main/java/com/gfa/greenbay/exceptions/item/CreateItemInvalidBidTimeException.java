@@ -1,5 +1,5 @@
 package com.gfa.greenbay.exceptions.item;
 
-public class CreateItemInvalidBidTimeException extends CreateItemException {
+public class CreateItemInvalidBidTimeException extends ItemException {
 
 }

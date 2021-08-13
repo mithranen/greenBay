@@ -1,11 +1,11 @@
 package com.gfa.greenbay.controllers;
 
-import com.gfa.greenbay.entitiesanddtos.ErrorDTO;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.ErrorDTO;
 import com.gfa.greenbay.exceptions.login.IncorrectUserNameOrPassword;
 import com.gfa.greenbay.exceptions.login.LoginRequestNullException;
 import com.gfa.greenbay.exceptions.login.PasswordMissingException;
 import com.gfa.greenbay.exceptions.login.UsernameMissingException;
-import com.gfa.greenbay.exceptions.login.UsernameNotFoundException;
+import com.gfa.greenbay.exceptions.login.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,11 +35,11 @@ public class LoginExceptionHandler {
         .body(new ErrorDTO("You did not give password!"));
   }
 
-  @ExceptionHandler(value = UsernameNotFoundException.class)
+  @ExceptionHandler(value = UserNotFoundException.class)
   public ResponseEntity<?> handleUsernameNotFound() {
     return ResponseEntity
         .status(HttpStatus.NOT_FOUND)
-        .body(new ErrorDTO("Username not found!"));
+        .body(new ErrorDTO("User not found with given username!"));
   }
 
   @ExceptionHandler(IncorrectUserNameOrPassword.class)

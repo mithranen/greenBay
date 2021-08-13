@@ -1,17 +1,17 @@
 package com.gfa.greenbay.controllers;
 
-import com.gfa.greenbay.entitiesanddtos.CreateItemRequestDTO;
-import com.gfa.greenbay.entitiesanddtos.ItemResponseDTO;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.CreateItemRequestDTO;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.ItemResponseDTO;
 import com.gfa.greenbay.services.item.ItemService;
 import com.gfa.greenbay.utils.security.JwtUtilServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,17 +32,37 @@ public class ItemController {
   @PostMapping("/item")
   public ResponseEntity<?> createNewItem(Authentication authentication,
       @RequestBody(required = false) CreateItemRequestDTO request) {
-    ItemResponseDTO response = itemService.createNewItem(request);
+    String username = authentication.getName();
+    ItemResponseDTO response = itemService.createNewItem(request, username);
     return ResponseEntity.ok().body(response);
   }
 
   //TODO pageable pageNUM
-  @GetMapping("/items-to-sell/{pageNum}")
-  public ResponseEntity<?> getItemsToSell(Authentication authentication,
-      @PathVariable(required = false) int pageNum, @RequestHeader("Authorization") String token) {
-    Long userId = jwtUtilService.getUserIdFromToken(token);
-    //String username = authentication.getName();
-    ItemResponseDTO response = itemService.getItemsToSell(userId);
+  @GetMapping(value = {"/items-to-sell", "/items-to-sell/{pageNum}"},
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> get20ItemsToSellByPage(Authentication authentication,
+      @PathVariable(required = false) Integer pageNum)
+  /*@RequestHeader("Authorization") String token*/ {
+    //Long userId = jwtUtilService.getUserIdFromToken(token);
+    String username = authentication.getName();
+    ItemResponseDTO response = itemService.get20SellableItemsByPage(username, pageNum);
     return ResponseEntity.ok().body(response);
   }
+
+  @GetMapping("/items-to-sell/all")
+  public ResponseEntity<?> getAllItemsToSell(Authentication authentication) {
+    String username = authentication.getName();
+    ItemResponseDTO response = itemService.getAllSellableItems(username);
+    return ResponseEntity.ok().body(response);
+  }
+
+  @GetMapping("/items-to-buy/{itemId}")
+  public ResponseEntity<?> getItemToBuyById(Authentication authentication,
+      @PathVariable Long itemId) {
+    String username = authentication.getName();
+    ItemResponseDTO response = itemService.getBuyableItemById(itemId, username);
+    return ResponseEntity.ok().body(response);
+  }
+
+
 }

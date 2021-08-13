@@ -1,4 +1,4 @@
-package com.gfa.greenbay.entitiesanddtos;
+package com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -35,9 +35,14 @@ public class ItemResponseDTO {
   private Integer purchasePrice;
   private Status status;
 
-  private List<Item> itemsToSell;
+  private List<ItemResponseOverview> itemsToSell;
+  private ItemResponseOverview itemsToBuy;
 
-  public ItemResponseDTO(List<Item> itemsToSell) {
+  public ItemResponseDTO(List<ItemResponseOverview> itemsToSell) {
     this.itemsToSell = itemsToSell;
+  }
+
+  public ItemResponseDTO(ItemResponseOverview itemsToBuy) {
+    this.itemsToBuy = itemsToBuy;
   }
 }

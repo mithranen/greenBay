@@ -1,6 +1,6 @@
 package com.gfa.greenbay.controllers;
 
-import com.gfa.greenbay.entitiesanddtos.ErrorDTO;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.ErrorDTO;
 import com.gfa.greenbay.exceptions.item.CreateItemInvalidBidTimeException;
 import com.gfa.greenbay.exceptions.item.CreateItemInvalidPhotoUrlException;
 import com.gfa.greenbay.exceptions.item.CreateItemInvalidStartingPriceException;
@@ -11,14 +11,17 @@ import com.gfa.greenbay.exceptions.item.CreateItemMissingDescriptionException;
 import com.gfa.greenbay.exceptions.item.CreateItemMissingNameException;
 import com.gfa.greenbay.exceptions.item.CreateItemMissingPhotoUrlException;
 import com.gfa.greenbay.exceptions.item.CreateItemRequestNullException;
+import com.gfa.greenbay.exceptions.item.InvalidPageNumberException;
+import java.util.NoSuchElementException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class CreateItemExceptionHandler {
+public class ItemExceptionHandler {
 
+  //region handlers for CREATE item
   @ExceptionHandler(value = CreateItemRequestNullException.class)
   public ResponseEntity<?> handleNullRequest() {
     return ResponseEntity
@@ -74,7 +77,7 @@ public class CreateItemExceptionHandler {
   public ResponseEntity<?> handleBidStartingPriceNotPositiveNumber() {
     return ResponseEntity
         .status(HttpStatus.UNPROCESSABLE_ENTITY)
-        .body(new ErrorDTO("Price should be positive number!"));
+        .body(new ErrorDTO("Price should be positive whole number!"));
   }
 
   @ExceptionHandler(value = CreateItemInvalidTimeFormatException.class)
@@ -91,5 +94,28 @@ public class CreateItemExceptionHandler {
         .status(HttpStatus.UNPROCESSABLE_ENTITY)
         .body(new ErrorDTO(
             "Bid time must be at least 7 days from creation time. Bid ending time cannot be in the past!"));
+  } //endregion
+
+  //region handlers for GET sellable 20 item per page
+  @ExceptionHandler(value = InvalidPageNumberException.class)
+  public ResponseEntity<?> handleGet20ItemsWithInvalidPageNum() {
+    return ResponseEntity
+        .status(HttpStatus.UNPROCESSABLE_ENTITY)
+        .body(new ErrorDTO("Page number should be positive whole number!"));
+  } //endregion
+
+  //region handlers for GET buyable item by id
+  @ExceptionHandler(value = NoSuchElementException.class)
+  public ResponseEntity<?> handleGetBuyableItemNotExistsById() {
+    return ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .body(new ErrorDTO("Item not found!"));
   }
+
+  @ExceptionHandler(value = IllegalArgumentException.class)
+  public ResponseEntity<?> handleGetBuyableItemByIdBelongsToUser() {
+    return ResponseEntity
+        .status(HttpStatus.CONFLICT)
+        .body(new ErrorDTO("Item belongs to you. You cannot buy it!"));
+  } //endregion
 }

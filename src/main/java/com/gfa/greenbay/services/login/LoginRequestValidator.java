@@ -1,6 +1,6 @@
 package com.gfa.greenbay.services.login;
 
-import com.gfa.greenbay.entitiesanddtos.LoginRequestDTO;
+import com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs.LoginRequestDTO;
 
 public interface LoginRequestValidator {
 

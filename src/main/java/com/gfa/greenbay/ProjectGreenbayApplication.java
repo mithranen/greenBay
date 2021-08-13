@@ -3,6 +3,7 @@ package com.gfa.greenbay;
 import com.gfa.greenbay.entitiesanddtos.User;
 import com.gfa.greenbay.repositories.UserRepository;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,7 +25,10 @@ public class ProjectGreenbayApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    User user = new User(1L, "kiscica", "password123", 230, "USER", new ArrayList<>());
-    userRepository.save(user);
+    User user = new User(1L, "kiscica", "password123", 3455, "USER", new ArrayList<>());
+    User user2 = new User(2L, "kiskutya", "password123", 230, "USER", new ArrayList<>());
+    //userRepository.save(user);
+
+    userRepository.saveAll(Arrays.asList(user, user2));
   }
 }

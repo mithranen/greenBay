@@ -1,4 +1,4 @@
-package com.gfa.greenbay.entitiesanddtos;
+package com.gfa.greenbay.entitiesanddtos.dtosandvalueobjs;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

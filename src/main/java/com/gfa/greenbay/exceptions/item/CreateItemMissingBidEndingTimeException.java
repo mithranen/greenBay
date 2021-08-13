@@ -1,5 +1,5 @@
 package com.gfa.greenbay.exceptions.item;
 
-public class CreateItemMissingBidEndingTimeException extends CreateItemException {
+public class CreateItemMissingBidEndingTimeException extends ItemException {
 
 }
