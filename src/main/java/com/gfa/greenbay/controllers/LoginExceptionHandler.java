@@ -1,11 +1,11 @@
 package com.gfa.greenbay.controllers;
 
 import com.gfa.greenbay.entitiesanddtos.ErrorDTO;
-import com.gfa.greenbay.exceptions.IncorrectPasswordException;
-import com.gfa.greenbay.exceptions.LoginRequestNullException;
-import com.gfa.greenbay.exceptions.UsernameNotFoundException;
-import com.gfa.greenbay.exceptions.UsernameOrPasswordIsEmptyException;
-import com.gfa.greenbay.exceptions.UsernameOrPasswordMissingException;
+import com.gfa.greenbay.exceptions.login.IncorrectUserNameOrPassword;
+import com.gfa.greenbay.exceptions.login.LoginRequestNullException;
+import com.gfa.greenbay.exceptions.login.PasswordMissingException;
+import com.gfa.greenbay.exceptions.login.UsernameMissingException;
+import com.gfa.greenbay.exceptions.login.UsernameNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,12 +21,18 @@ public class LoginExceptionHandler {
         .body(new ErrorDTO("You did not give username and password!"));
   }
 
-  @ExceptionHandler(value = {UsernameOrPasswordMissingException.class,
-      UsernameOrPasswordIsEmptyException.class})
-  public ResponseEntity<?> handleIfUsernameOrPwdMissing() {
+  @ExceptionHandler(value = {UsernameMissingException.class})
+  public ResponseEntity<?> handleIfUsernameMissing() {
     return ResponseEntity
         .status(HttpStatus.BAD_REQUEST)
-        .body(new ErrorDTO("You did not give username or password!"));
+        .body(new ErrorDTO("You did not give username!"));
+  }
+
+  @ExceptionHandler(value = {PasswordMissingException.class})
+  public ResponseEntity<?> handleIfPasswordMissing() {
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(new ErrorDTO("You did not give password!"));
   }
 
   @ExceptionHandler(value = UsernameNotFoundException.class)
@@ -36,10 +42,17 @@ public class LoginExceptionHandler {
         .body(new ErrorDTO("Username not found!"));
   }
 
-  @ExceptionHandler(value = IncorrectPasswordException.class)
-  public ResponseEntity<?> handleIncorrectPwd() {
+  @ExceptionHandler(IncorrectUserNameOrPassword.class)
+  public ResponseEntity<?> handleAuthenticationProblem() {
     return ResponseEntity
         .status(HttpStatus.UNAUTHORIZED)
-        .body(new ErrorDTO("Username not found!"));
+        .body(new ErrorDTO("Incorrect username or password!"));
   }
+  
+  //  @ExceptionHandler(value = IncorrectPasswordException.class)
+  //  public ResponseEntity<?> handleIncorrectPwd() {
+  //    return ResponseEntity
+  //        .status(HttpStatus.UNAUTHORIZED)
+  //        .body(new ErrorDTO("Incorrect password!"));
+  //  }
 }

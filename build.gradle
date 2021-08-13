@@ -17,14 +17,20 @@ configurations {
     }
 }
 
+//flyway {
+//    url = System.getenv('DATASOURCE_URL')
+//    user = System.getenv('DATASOURCE_USERNAME')
+//    password = System.getenv('DATASOURCE_PASSWORD')
+//}
+
 checkstyle {
     toolVersion = "8.18"
 }
 
-tasks.withType(Checkstyle) {
-    exclude 'src/main/resources'
-    exclude 'src/test/resources'
-}
+//tasks.withType(Checkstyle) {
+//    exclude 'src/main/resources'
+//    exclude 'src/test/resources'
+//}
 
 repositories {
     mavenCentral()
@@ -33,10 +39,13 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    //implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'mysql:mysql-connector-java'
@@ -44,6 +53,17 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.4'
+    //implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.4'
+    implementation group: 'commons-validator', name: 'commons-validator', version: '1.7'
+
+    //For testing in future
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testImplementation 'org.springframework.security:spring-security-test'
+//    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.3.3'
+//    testImplementation group: 'org.mockito', name: 'mockito-inline', version: '3.8.0'
+//    testRuntimeOnly 'com.h2database:h2'
 }
 
 test {
